@@ -3,7 +3,7 @@ module Redmine2FA
     module UserPatch
       def self.included(base)
         base.send(:include, InstanceMethods)
-        base.safe_attributes 'mobile_phone', 'ignore_2fa'
+        base.safe_attributes 'mobile_phone', 'ignore_2fa', 'tfa_type'
         base.validates_format_of :mobile_phone, with: /\A\d*\z/, allow_blank: true
 
         base.class_eval do
@@ -16,6 +16,7 @@ module Redmine2FA
       end
 
       module InstanceMethods
+
         def update_hashed_password_with_otp_auth
           if two_factor_authenticable?
             salt_password(password) if password
@@ -29,21 +30,21 @@ module Redmine2FA
         end
 
         def sms_authenticable?
-          auth_source&.auth_method_name == 'SMS'
+          self.tfa_type == 'sms'
         end
 
         def telegram_authenticable?
-          auth_source&.auth_method_name == 'Telegram'
+          self.tfa_type == 'telegram'
         end
 
         def google_authenticable?
-          auth_source&.auth_method_name == 'Google Auth'
+          self.tfa_type == 'google_auth'
         end
 
         def reset_second_auth
           otp_regenerate_secret
-          self.auth_source_id = nil
           self.ignore_2fa = false
+          self.tfa_type = nil
           save!
         end
 

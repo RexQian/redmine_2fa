@@ -50,7 +50,6 @@ class OtpBotController < ApplicationController
   end
 
   def reset_telegram_authentications
-    auth_source = Redmine2FA::AuthSource::Telegram.first
-    User.where(auth_source_id: auth_source.id).update_all(auth_source_id: nil)
+    User.where(tfa_type: 'telegram').update_all(tfa_type: nil)
   end
 end

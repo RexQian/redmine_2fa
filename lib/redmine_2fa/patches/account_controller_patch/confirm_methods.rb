@@ -19,7 +19,7 @@ module Redmine2FA
               reset_otp_session
               successful_authentication(@user)
             else
-              update_auth_source
+              update_tfa_type
               Redmine2FA::CodeSender.new(@user).send_code
               render 'account/otp'
             end
@@ -52,19 +52,8 @@ module Redmine2FA
             end
           end
 
-          def update_auth_source
-            @user.update_columns(auth_source_id: auth_source.id) if auth_source
-          end
-
-          def auth_source
-            return unless Redmine2FA.active_protocols.include?(protocol)
-            @auth_source ||= "Redmine2FA::AuthSource::#{auth_source_class}".constantize.first
-          end
-
-          def auth_source_class
-            { 'sms' => 'SMS',
-              'telegram' => 'Telegram',
-              'google_auth' => 'GoogleAuth' }[protocol]
+          def update_tfa_type
+            @user.update!(tfa_type, protocol)
           end
 
           def protocol

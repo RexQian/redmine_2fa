@@ -1,0 +1,78 @@
+zh:
+  field_mobile_phone: '手机号'
+  field_ignore_2fa: '忽略二步验证'
+  link_2fa_reset: 重置二步验证
+  notice_2fa_reset: 二步验证已重置
+  redmine_2fa:
+    protocols:
+      telegram: 电话
+      sms: 短信
+      google_auth: Google认证器
+      none: 无二步验证
+    settings:
+      common:
+        title: 认证类型
+        required: 强制开启二步验证
+      telegram:
+        init:
+          header: Bot initialization
+          description_html: |
+            Initialization process:
+            <ul>
+              <li>setup bot web-hook</li>
+              <li>save bot name and bot id to system</li>
+            </ul>
+          button_text: Initialize bot
+        reset:
+          header: Bot deactivation
+          description_html: |
+            Bot deactivation:
+            <ul>
+              <li>reset bot web-hook</li>
+              <li>reset 2FA for users who use Telegram authentication</li>
+            </ul>
+          button_text: Deactivate bot
+      required: "required for this plugin"
+    second_authentications:
+      init:
+        instruction: 选择二步验证的类型
+        disable: "不使用"
+      next_button_html: 下一步 &#187;
+      google_auth:
+        instruction_html: |
+          <p>请按照
+            <a href="https://support.google.com/accounts/answer/1066447" target="_blank">链接</a>设置Google Authenticator.</p>
+          <p>在Google验证器中扫码下面的二维码</p>
+        next_step_instruction: 完成扫码后点击"下一步"
+      telegram:
+        instruction_html: |
+          %{bot_name} will send you authentication codes. Pleas activate it.<br>
+          Follow the <a href="https://telegram.me/%{bot_name}" target="_blank">link</a> and say "/start" to bot. Then follow the bot instruction.
+      sms:
+        instruction: Please enter mobile phone number for SMS.
+        mobile_phone_hint_html: 'enter all digits <br>includes country code. <br>Example for Russia: 79256879854'
+        mobile_phone_submit: "Get code"
+        confirm_hint: enter code gotten by SMS
+        confirm_submit: Confirm
+
+    otp_bot:
+      init:
+        success: Bot successfully initialzied
+        error:
+          wrong_token: Wrong token
+          api_error: Telegram Bot API service anavailable
+        reset:
+          success: Bot successfully deactivated
+
+    telegram_auth:
+      message: 'Redmine "%{app_title}" auth code: %{code}. Expired at %{expiration_time}.'
+
+    auth_code: '验证码'
+    resend:
+      link: '重发验证码'
+      instruction_html: 'Code sent. Code resending  possible after 5 seconds <span id="otpCodeResendTimer">%{timeout}</span>.'
+    notice:
+      auth_code:
+        invalid: '验证码错误'
+        resent_again: 'Authorization code sent again'
+        limit_exceeded_failed_attempts: 'Limit exceeded of failed attempts. New authorization code sent'

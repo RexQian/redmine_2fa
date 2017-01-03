@@ -16,10 +16,10 @@ module Redmine2FA
     private
 
     def define_sender
-      case user&.auth_source&.auth_method_name
-      when 'Telegram'
+      case user&.tfa_type
+      when 'telegram'
         CodeSender::TelegramSender.new(user)
-      when 'SMS'
+      when 'sms'
         CodeSender::SMSSender.new(user)
       else
         CodeSender::NullSender.new
