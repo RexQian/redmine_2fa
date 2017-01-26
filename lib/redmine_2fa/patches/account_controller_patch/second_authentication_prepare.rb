@@ -5,12 +5,14 @@ module Redmine2FA
         private
 
         def password_authentication
-          @user = User.try_to_login(params[:username], params[:password], false)
+          @user = User.try_to_login(params[:username], params[:password])
 
           if @user
             set_otp_session
+            super
+          else
+            invalid_credentials
           end
-          super
         end
 
         def set_otp_session
