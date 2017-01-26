@@ -53,7 +53,7 @@ module Redmine2FA
           end
 
           def update_tfa_type
-            @user.update!(tfa_type, protocol)
+            @user.update!(tfa_type:protocol)
           end
 
           def protocol
